@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "alias": ["test-app.cherry.novu.ch"],
   "env": {
     "API_URL": "https://test-app-cms.share.novu.ch/api",
     "BASE_URL": "https://test-app-cms.share.novu.ch/api",
