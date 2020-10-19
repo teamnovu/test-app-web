@@ -5,30 +5,31 @@
       <h1 class="title">
         test-app-web
       </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      {{ title }}
+      {{ content }}
+      <nuxt-link tag="a" to="/test">sdfsd</nuxt-link>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  async asyncData ({ route, store, error, req, $axios }) {
+    console.log(route.path)
+    const path = route.path.slice(1, route.path.length)
+    console.log(path)
+    const { data } = await $axios.$get('collections/pages/entries', {
+      params: {
+        'filter[slug:is]': path
+      }
+    })
+    console.log(data)
+    if (data && data.length) {
+      return data[0]
+    }
+    return {}
+  }
+}
 </script>
 
 <style>
