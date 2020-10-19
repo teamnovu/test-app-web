@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "alias": ["test-app.cherry.novu.ch"],
+  "env": {
+    "API_URL": "https://test-app-cms.share.novu.ch/api",
+    "BASE_URL": "https://test-app-cms.share.novu.ch/api",
+    "NUXT_ENV_GMAPS_KEY": "AIzaSyBYKKmDg0vLiapxpv9-0Oe4MJKQtfxHgJc"
+  },
+  "build": {
+    "env": {
+      "API_URL": "https://test-app-cms.share.novu.ch/api",
+      "BASE_URL": "https://test-app-cms.share.novu.ch/api",
+      "NUXT_ENV_GMAPS_KEY": "AIzaSyBYKKmDg0vLiapxpv9-0Oe4MJKQtfxHgJc"
+    }
+  },
+  "builds": [
+    {
+      "src": "nuxt.config.js",
+      "use": "@nuxtjs/now-builder",
+      "config": {}
+    }
+  ]
+}
