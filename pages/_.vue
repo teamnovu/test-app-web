@@ -3,7 +3,7 @@
     <div>
       <Logo />
       <h1 class="title">
-        test-app-web
+        Test App
       </h1>
       <h2>{{ page.title }}</h2>
       <div v-html="page.content"></div>
