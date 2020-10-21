@@ -14,19 +14,19 @@
 
 <script>
 export default {
-  async asyncData ({ route, store, error, req, $axios }) {
+  async asyncData({ route, store, error, req, $axios }) {
     const path = route.path.slice(1, route.path.length)
     const { data } = await $axios.$get('collections/pages/entries', {
       params: {
-        'filter[slug:is]': path
-      }
+        'filter[slug:is]': path,
+      },
     })
     if (data && data.length) {
       return data[0]
     }
-    
+
     return {}
-  }
+  },
 }
 </script>
 
@@ -46,16 +46,8 @@ export default {
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

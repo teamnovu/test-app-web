@@ -1,0 +1,35 @@
+{
+    "eslint.packageManager": "yarn",
+    "eslint.autoFixOnSave": true,
+    "npm.packageManager": "yarn",
+    "[javascript]": {
+      "editor.formatOnSave": false,
+      "editor.tabSize": 2
+    },
+    "[vue]": {
+      "editor.formatOnSave": false,
+      "editor.tabSize": 2
+    },
+    "eslint.validate": [
+      {
+        "language": "javascript",
+        "autoFix": true
+      },
+      {
+        "language": "javascriptreact",
+        "autoFix": true
+      },
+      {
+        "language": "html",
+        "autoFix": true
+      },
+      {
+        "language": "vue",
+        "autoFix": true
+      }
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  }
+  
