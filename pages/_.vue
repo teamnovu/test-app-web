@@ -24,6 +24,7 @@ export default {
     if (data && data.length) {
       return data[0]
     }
+    
     return {}
   }
 }
