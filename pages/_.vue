@@ -5,8 +5,8 @@
       <h1 class="title">
         test-app-web
       </h1>
-      {{ title }}
-      {{ content }}
+      <h2>{{ page.title }}</h2>
+      <div v-html="page.content"></div>
       <nuxt-link tag="a" to="/test">sdfsd</nuxt-link>
     </div>
   </div>
@@ -22,10 +22,12 @@ export default {
       },
     })
     if (data && data.length) {
-      return data[0]
+      return { page: data[0] }
     }
 
-    return {}
+    return {
+      page: {},
+    }
   },
 }
 </script>
