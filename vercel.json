@@ -1,14 +1,14 @@
 {
   "version": 2,
   "env": {
-    "API_URL": "https://test-app.peach.novu.ch/api",
-    "BASE_URL": "https://test-app.peach.novu.ch/api",
+    "API_URL": "https://test-app-cms.share.novu.ch/api",
+    "BASE_URL": "https://test-app-cms.share.novu.ch/api",
     "NUXT_ENV_GMAPS_KEY": "AIzaSyBYKKmDg0vLiapxpv9-0Oe4MJKQtfxHgJc"
   },
   "build": {
     "env": {
-      "API_URL": "https://test-app.peach.novu.ch/api",
-      "BASE_URL": "https://test-app.peach.novu.ch/api",
+      "API_URL": "https://test-app-cms.share.novu.ch/api",
+      "BASE_URL": "https://test-app-cms.share.novu.ch/api",
       "NUXT_ENV_GMAPS_KEY": "AIzaSyBYKKmDg0vLiapxpv9-0Oe4MJKQtfxHgJc"
     }
   },
