@@ -7,7 +7,6 @@
       </h1>
       <h2>{{ page.title }}</h2>
       <div v-html="page.content"></div>
-      <nuxt-link tag="a" to="/test">sdfsd</nuxt-link>
     </div>
   </div>
 </template>
