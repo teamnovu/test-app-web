@@ -15,28 +15,19 @@
 export default {
   async asyncData({ route, store, error, req, $axios }) {
     const path = route.path.slice(1, route.path.length)
-    const { data } = await $axios.$get('collections/pages/entries', {
-      params: {
-        'filter[slug:is]': path,
-      },
-    })
-    if (data && data.length) {
-      return { page: data[0] }
-    }
-
+    const { data } = await $axios.$get(`pages/${path}`)
     return {
-      page: {},
+      page: data,
     }
   },
 }
 </script>
 
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
+<style scoped>
+h2 {
+  font-size: 2rem;
 }
-*/
+
 .container {
   margin: 0 auto;
   min-height: 100vh;
