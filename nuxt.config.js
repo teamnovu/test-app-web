@@ -44,5 +44,6 @@ export default {
   env: {
     apiUrl: process.env.API_URL,
     appUrl: process.env.APP_URL,
+    assetUrl: process.env.ASSET_BASE_URL
   },
 }
