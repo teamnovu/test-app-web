@@ -1,23 +1,20 @@
 <template>
   <div class="container">
-    <StatamicImage
+    <StatamicImageTest
       src="/assets/_DSF1827-1_reduced.jpg"
-      :sizes="{
-        lg: '800px',
-        sm: '300px',
-      }"
       format="webp"
-      orient="180"
+      :aspectRatio="2"
+      :placeholderQuality="70"
     />
   </div>
 </template>
 
 <script>
-import StatamicImage from "../components/StatamicImage";
+import StatamicImageTest from "../components/StatamicImageTest";
 
 export default {
   components: {
-    StatamicImage,
+    StatamicImageTest,
   },
   // async asyncData({ route, store, error, req, $axios }) {
   //   const path = route.path.slice(1, route.path.length);
@@ -37,7 +34,7 @@ h2 {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
+  width: 500px;
 }
 
 .title {

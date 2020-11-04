@@ -1,26 +1,20 @@
 <template>
-  <div class="w-full">
     <img
-      v-show="isLoading && usePlaceholder"
-      :src="placeholderDataUrl"
-      width="100%"
-    />
-    <img
-      v-show="!isLoading || !usePlaceholder"
-      @load="isLoading = false"
+      v-if="intersecting"
+      ref="imageRef"
+      @load="onLoaded"
       :src="originalDataUrl"
       :srcset="imgSrcSet"
-      :sizes="imgSizes"
+      :sizes="sizesL"
       width="100%"
     />
-  </div>
+    <div ref="observer" v-else></div>
 </template>
 
 <style>
 </style>
 
 <script>
-import tailwindConfig from "../tailwind.config";
 import resolveConfig from "tailwindcss/resolveConfig";
 
 export default {
@@ -28,11 +22,6 @@ export default {
     src: {
       required: true,
       type: String,
-    },
-    sizes: {
-      required: false,
-      type: Object,
-      default: () => {},
     },
     quality: {
       required: false,
@@ -67,10 +56,6 @@ export default {
       required: false,
       type: Number,
     },
-    srcSetSizes: {
-      required: false,
-      type: Array,
-    },
     aspectRatio: {
       required: false,
       type: Number,
@@ -88,9 +73,14 @@ export default {
     placeholderWidth: {
       required: false,
       type: Number,
-      default: 400
+      default: 400,
     },
     usePlaceholder: {
+      required: false,
+      default: true,
+      type: Boolean,
+    },
+    observeIntersection: {
       required: false,
       default: true,
       type: Boolean,
@@ -98,10 +88,13 @@ export default {
   },
   data() {
     return {
+      sizesL: "1px",
       isLoading: true,
+      hasIntersected: false,
     };
   },
   created() {
+    const tailwindConfig = require("~/tailwind.config");
     const config = resolveConfig(tailwindConfig);
 
     const screens = Object.entries(config.theme.screens)
@@ -114,9 +107,41 @@ export default {
 
     this.screens = screens;
   },
+  mounted() {
+    window.addEventListener("resize", this.onResize, { passive: true });
+
+    if (this.observeIntersection) {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log('intersecting');
+            this.hasIntersected = true;
+          }
+        });
+      });
+      observer.observe(this.$refs.observer);
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
+  },
   methods: {
-    loaded() {
-      this.loading = false;
+    updateSizes() {
+      return new Promise((resolve) => {
+        window.requestAnimationFrame(() => {
+          const imageWidth = this.$refs.imageRef.getBoundingClientRect().width;
+          const size = Math.ceil((imageWidth / window.innerWidth) * 100);
+          this.sizesL = `${size}vw`;
+          resolve();
+        });
+      });
+    },
+    onResize() {
+      this.updateSizes();
+    },
+    async onLoaded() {
+      await this.updateSizes();
+      this.isLoading = false;
     },
     generateSrc({
       quality,
@@ -126,7 +151,6 @@ export default {
       addSrcSetWidth,
       fit,
       crop,
-      orient,
       format,
     }) {
       let src = `${process.env.assetUrl}${this.src}?`;
@@ -136,47 +160,34 @@ export default {
       if (blur) src += `&blur=${blur}`;
       if (fit) src += `&fit=${fit}`;
       if (crop) src += `&fit=${crop}`;
-      if (orient) src += `&orient=${orient}`;
       if (format) src += `&format=${format}`;
-      if (addSrcSetWidth) src += ` ${width}w`;
 
       return src;
     },
   },
   computed: {
+    intersecting() {
+      if (!this.observeIntersection) {
+        return true;
+      }
+      return this.hasIntersected;
+    },
     imgSrcSet() {
       let sizes = this.screens.map((screen) => screen.size.replace("px", ""));
-      if (this.srcSetSizes) {
-        sizes = this.srcSetSizes.sort((a, b) => a - b);
-      }
-      return sizes
-        .map((size) =>
+      const srcSet = sizes.map(
+        (size) =>
           this.generateSrc({
             width: size,
             quality: this.quality,
-            addSrcSetWidth: true,
             fit: this.fit,
             format: this.format,
-            orient: this.orient,
             crop: this.crop,
             aspectRatio: this.aspectRatio,
-          })
-        )
-        .join(", ");
-    },
-    imgSizes() {
-      const sizes = Object.entries(this.sizes || {});
-      if (sizes.length > 0) {
-        return sizes.map(([key, value]) => {
-          const breakpoint = this.screens.find((bp) => bp.breakpoint === key);
-          if (breakpoint) {
-            return `(${breakpoint.media}) ${value}`;
-          } else {
-            return `(${key}) ${value}`;
-          }
-        });
-      }
-      return this.screens.map((screen) => `(${screen.media}) ${screen.size}`);
+          }) + ` ${size}w`
+      );
+
+      srcSet.push(this.placeholderDataUrl + " 32w");
+      return srcSet.join(",");
     },
     originalDataUrl() {
       return this.generateSrc({
@@ -187,7 +198,6 @@ export default {
         fit: this.fit,
         format: this.format,
         aspectRatio: this.aspectRatio,
-        orient: this.orient,
         crop: this.crop,
       });
     },
