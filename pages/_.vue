@@ -1,29 +1,28 @@
 <template>
   <div class="container">
-    <StatamicImageTest
-      src="/assets/_DSF1827-1_reduced.jpg"
-      format="webp"
-      :aspectRatio="2"
-      :placeholderQuality="70"
+    <StatamicImage
+      :src="page.assets.url"
+      :placeholder-data-url="page.assets.preview"
+      :quality="50"
     />
   </div>
 </template>
 
 <script>
-import StatamicImageTest from "../components/StatamicImageTest";
+import StatamicImage from 'vue-statamic-image'
 
 export default {
   components: {
-    StatamicImageTest,
+    StatamicImage,
   },
-  // async asyncData({ route, store, error, req, $axios }) {
-  //   const path = route.path.slice(1, route.path.length);
-  //   const { data } = await $axios.$get(`pages/${path}`);
-  //   return {
-  //     page: data,
-  //   };
-  // },
-};
+  async asyncData({ route, store, error, req, $axios }) {
+    const path = route.path.slice(1, route.path.length)
+    const { data } = await $axios.$get(`/api/pages/${path}`)
+    return {
+      page: data,
+    }
+  },
+}
 </script>
 
 <style scoped>
@@ -38,8 +37,8 @@ h2 {
 }
 
 .title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
