@@ -17,7 +17,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/live-preview'],
+  plugins: ['~/plugins/statamic-image', '~/plugins/live-preview'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -37,12 +37,11 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: process.env.NUXT_ENV_BASE_URL,
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
-  env: {
-    apiUrl: process.env.API_URL,
-    appUrl: process.env.APP_URL,
-  },
+  env: {},
 }

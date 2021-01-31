@@ -1,21 +1,23 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        Test App
-      </h1>
-      <h2>{{ page.title }}</h2>
-      <div v-html="page.content"></div>
-    </div>
+    <StatamicImage
+      :src="page.assets.url"
+      :placeholder-data-url="page.assets.preview"
+      :quality="50"
+    />
   </div>
 </template>
 
 <script>
+import StatamicImage from 'vue-statamic-image'
+
 export default {
+  components: {
+    StatamicImage,
+  },
   async asyncData({ route, store, error, req, $axios }) {
     const path = route.path.slice(1, route.path.length)
-    const { data } = await $axios.$get(`pages/${path}`)
+    const { data } = await $axios.$get(`/api/pages/${path}`)
     return {
       page: data,
     }
@@ -31,10 +33,7 @@ h2 {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  width: 500px;
 }
 
 .title {

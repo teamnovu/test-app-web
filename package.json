@@ -14,7 +14,8 @@
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
-    "statamic-live-preview-nuxt": "https://github.com/teamnovu/statamic-live-preview-nuxt#v1.0"
+    "statamic-live-preview-nuxt": "https://github.com/teamnovu/statamic-live-preview-nuxt#v1.0",
+    "vue-statamic-image": "1.0.12"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^4.0.0",
